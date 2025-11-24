@@ -1,8 +1,8 @@
 K6_SERVICE := k6
 
 # Environment variables for k6 testing
-FRANKEN_URL := https://localhost:443
-FRANKEN_WORKER_URL := https://localhost:444
+FRANKEN_URL := http://localhost:8080
+FRANKEN_WORKER_URL := http://localhost:8081
 FPM_URL := http://localhost:8088
 
 .PHONY: k6 clean
@@ -64,7 +64,7 @@ up:
 	docker-compose up -d redis
 
 down:
-	docker-compose up -d down
+	docker-compose down
 
 
 ps:
@@ -287,9 +287,9 @@ k6-install:
 .PHONY: rebuild-projections
 rebuild-projections:
 	@echo "Rebuilding all projections..."
-	docker-compose exec app php bin/console app:rebuild-product-projections
-	docker-compose exec app php bin/console app:rebuild-customer-projections
-	docker-compose exec app php bin/console app:rebuild-order-projections
+	@docker-compose exec app php bin/console app:rebuild-product-projections 2>&1 | grep -v "User Deprecated"
+	@docker-compose exec app php bin/console app:rebuild-customer-projections 2>&1 | grep -v "User Deprecated"
+	@docker-compose exec app php bin/console app:rebuild-order-projections 2>&1 | grep -v "User Deprecated"
 
 .PHONY: rebuild-products
 rebuild-products:

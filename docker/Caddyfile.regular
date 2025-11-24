@@ -1,15 +1,16 @@
 {
 	admin 0.0.0.0:2019
 	metrics
+	auto_https off
 
-	frankenphp {
-		php_ini memory_limit 512M
-	}
+	frankenphp
 }
 
-{$SERVER_NAME:localhost} {
+{$CADDY_EXTRA_CONFIG}
+
+{$SERVER_NAME::80} {
 	root {$SERVER_ROOT:public/}
-	encode zstd br gzip 
+	encode zstd br gzip
 
 	{$CADDY_SERVER_EXTRA_DIRECTIVES}
 

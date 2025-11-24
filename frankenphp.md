@@ -13,7 +13,7 @@ comparison and monitoring.
 make up-franken
 ```
 
-Go to - https://localhost/
+Go to - http://localhost:8080/
 
 # up worker mode franken
 
@@ -21,7 +21,7 @@ Go to - https://localhost/
 make up-worker
 ```
 
-Go to - https://localhost:444/
+Go to - http://localhost:8081/
 
 ## Service Configuration
 
@@ -29,8 +29,8 @@ Go to - https://localhost:444/
 
 | Service               | Port | Mode    | Caddyfile           | Purpose                      |
 |-----------------------|------|---------|---------------------|------------------------------|
-| **FrankenPHP**        | 443  | Regular | `Caddyfile.regular` | Traditional PHP server mode  |
-| **FrankenPHP Worker** | 444  | Worker  | `Caddyfile`         | High-performance worker mode |
+| **FrankenPHP**        | 8080 | Regular | `Caddyfile.regular` | Traditional PHP server mode  |
+| **FrankenPHP Worker** | 8081 | Worker  | `Caddyfile`         | High-performance worker mode |
 
 ### Configuration Differences
 
@@ -135,7 +135,7 @@ Caddy configuration can be extended via environment variables in the docker-comp
 ```yaml
 environment:
   CADDY_GLOBAL_OPTIONS: "admin 0.0.0.0:2019\nmetrics"
-  SERVER_NAME: ":8080 https://localhost:443"
+  SERVER_NAME: ":80"
 ```
 
 ### Environment Variables Explained
@@ -156,7 +156,8 @@ Injects global Caddy directives at the top of your configuration:
 Defines which addresses/domains Caddy will serve:
 
 - `:8080` - HTTP on port 8080 (all interfaces)
-- `https://localhost:443` - HTTPS on localhost
+- `http://localhost:8080` - HTTP on localhost (regular mode)
+- `http://localhost:8081` - HTTP on localhost (worker mode)
 - Can specify multiple: `example.com www.example.com`
 - Caddy auto-provisions SSL certificates for domains
 
@@ -326,7 +327,7 @@ curl http://localhost:2019/metrics | grep frankenphp_total_workers
 watch -n 1 'curl -s http://localhost:2019/metrics | grep frankenphp_total_workers'
 
 # Run load test in another terminal
-k6 run k6/list_products.js --env BASE_URL=https://localhost:443/en
+k6 run k6/list_products.js --env BASE_URL=http://localhost:8080/en
 ```
 
 ## Troubleshooting FrankenPHP
@@ -569,7 +570,7 @@ existing Makefile targets for consistent and reproducible testing.
 
 ### Available k6 Test Commands
 
-#### FrankenPHP (Regular Mode - Port 443)
+#### FrankenPHP (Regular Mode - Port 8080)
 
 ```bash
 # Products testing
@@ -585,7 +586,7 @@ make k6-franken-orders-db          # Test orders DB endpoint
 make k6-franken-orders-redis       # Test orders Redis endpoint
 ```
 
-#### FrankenPHP Worker Mode (Port 444)
+#### FrankenPHP Worker Mode (Port 8081)
 
 ```bash
 # Products testing
@@ -854,8 +855,8 @@ curl http://localhost:2020/metrics | grep frankenphp
 
 **Environment Variables Used:**
 
-- `FRANKEN_URL`: https://localhost:443 (FrankenPHP regular mode)
-- `FRANKEN_WORKER_URL`: https://localhost:444 (FrankenPHP worker mode)
+- `FRANKEN_URL`: http://localhost:8080 (FrankenPHP regular mode)
+- `FRANKEN_WORKER_URL`: http://localhost:8081 (FrankenPHP worker mode)
 - `FPM_URL`: http://localhost:8088 (PHP-FPM for comparison)
 
 **k6 Test Scripts:**
