@@ -130,11 +130,6 @@ clean:
 	docker-compose down -v --remove-orphans
 
 # Franken Worker targets
-.PHONY: k6-franken-worker-products
-k6-franken-worker-products:
-	@echo "Running products test against Franken Worker..."
-	k6 run --env BASE_URL=$(FRANKEN_WORKER_URL) k6/list_products.js
-
 .PHONY: k6-franken-worker-products-db
 k6-franken-worker-products-db:
 	@echo "Running products DB test against Franken Worker..."
@@ -144,11 +139,6 @@ k6-franken-worker-products-db:
 k6-franken-worker-products-redis:
 	@echo "Running products Redis test against Franken Worker..."
 	k6 run --env BASE_URL=$(FRANKEN_WORKER_URL) k6/list_products_redis.js
-
-.PHONY: k6-franken-worker-customers
-k6-franken-worker-customers:
-	@echo "Running customers test against Franken Worker..."
-	k6 run --env BASE_URL=$(FRANKEN_WORKER_URL) k6/list_customers.js
 
 .PHONY: k6-franken-worker-customers-db
 k6-franken-worker-customers-db:
@@ -160,11 +150,6 @@ k6-franken-worker-customers-redis:
 	@echo "Running customers Redis test against Franken Worker..."
 	k6 run --env BASE_URL=$(FRANKEN_WORKER_URL) k6/list_customers_redis.js
 
-.PHONY: k6-franken-worker-orders
-k6-franken-worker-orders:
-	@echo "Running orders test against Franken Worker..."
-	k6 run --env BASE_URL=$(FRANKEN_WORKER_URL) k6/list_orders.js
-
 .PHONY: k6-franken-worker-orders-db
 k6-franken-worker-orders-db:
 	@echo "Running orders DB test against Franken Worker..."
@@ -175,17 +160,7 @@ k6-franken-worker-orders-redis:
 	@echo "Running orders Redis test against Franken Worker..."
 	k6 run --env BASE_URL=$(FRANKEN_WORKER_URL) k6/list_orders_redis.js
 
-.PHONY: k6-franken-worker-blog
-k6-franken-worker-blog:
-	@echo "Running blog test against Franken Worker..."
-	k6 run --env BASE_URL=$(FRANKEN_WORKER_URL) k6/loadtest.js
-
 # Franken targets
-.PHONY: k6-franken-products
-k6-franken-products:
-	@echo "Running products test against Franken..."
-	k6 run --env BASE_URL=$(FRANKEN_URL) k6/list_products.js
-
 .PHONY: k6-franken-products-db
 k6-franken-products-db:
 	@echo "Running products DB test against Franken..."
@@ -195,11 +170,6 @@ k6-franken-products-db:
 k6-franken-products-redis:
 	@echo "Running products Redis test against Franken..."
 	k6 run --env BASE_URL=$(FRANKEN_URL) k6/list_products_redis.js
-
-.PHONY: k6-franken-customers
-k6-franken-customers:
-	@echo "Running customers test against Franken..."
-	k6 run --env BASE_URL=$(FRANKEN_URL) k6/list_customers.js
 
 .PHONY: k6-franken-customers-db
 k6-franken-customers-db:
@@ -211,11 +181,6 @@ k6-franken-customers-redis:
 	@echo "Running customers Redis test against Franken..."
 	k6 run --env BASE_URL=$(FRANKEN_URL) k6/list_customers_redis.js
 
-.PHONY: k6-franken-orders
-k6-franken-orders:
-	@echo "Running orders test against Franken..."
-	k6 run --env BASE_URL=$(FRANKEN_URL) k6/list_orders.js
-
 .PHONY: k6-franken-orders-db
 k6-franken-orders-db:
 	@echo "Running orders DB test against Franken..."
@@ -225,11 +190,6 @@ k6-franken-orders-db:
 k6-franken-orders-redis:
 	@echo "Running orders Redis test against Franken..."
 	k6 run --env BASE_URL=$(FRANKEN_URL) k6/list_orders_redis.js
-
-.PHONY: k6-franken-blog
-k6-franken-blog:
-	@echo "Running blog test against Franken..."
-	k6 run --env BASE_URL=$(FRANKEN_URL) k6/loadtest.js
 
 # mysql read
 .PHONY: k6-fpm-products-db
@@ -243,11 +203,6 @@ k6-fpm-products-redis:
 	@echo "Running products Redis test against FPM..."
 	k6 run --env BASE_URL=$(FPM_URL) k6/list_products_redis.js
 
-.PHONY: k6-fpm-customers
-k6-fpm-customers:
-	@echo "Running customers test against FPM..."
-	k6 run --env BASE_URL=$(FPM_URL) k6/list_customers.js
-
 .PHONY: k6-fpm-customers-db
 k6-fpm-customers-db:
 	@echo "Running customers DB test against FPM..."
@@ -257,11 +212,6 @@ k6-fpm-customers-db:
 k6-fpm-customers-redis:
 	@echo "Running customers Redis test against FPM..."
 	k6 run --env BASE_URL=$(FPM_URL) k6/list_customers_redis.js
-
-.PHONY: k6-fpm-orders
-k6-fpm-orders:
-	@echo "Running orders test against FPM..."
-	k6 run --env BASE_URL=$(FPM_URL) k6/list_orders.js
 
 .PHONY: k6-fpm-orders-db
 k6-fpm-orders-db:
@@ -273,53 +223,36 @@ k6-fpm-orders-redis:
 	@echo "Running orders Redis test against FPM..."
 	k6 run --env BASE_URL=$(FPM_URL) k6/list_orders_redis.js
 
-.PHONY: k6-fpm-blog
-k6-fpm-blog:
-	@echo "Running blog test against FPM..."
-	k6 run --env BASE_URL=$(FPM_URL) k6/loadtest.js
-
 # Batch testing targets
 .PHONY: k6-all-franken-worker
 k6-all-franken-worker:
 	@echo "Running all tests against Franken Worker..."
-	$(MAKE) k6-franken-worker-products
 	$(MAKE) k6-franken-worker-products-db
 	$(MAKE) k6-franken-worker-products-redis
-	$(MAKE) k6-franken-worker-customers
 	$(MAKE) k6-franken-worker-customers-db
 	$(MAKE) k6-franken-worker-customers-redis
-	$(MAKE) k6-franken-worker-orders
 	$(MAKE) k6-franken-worker-orders-db
 	$(MAKE) k6-franken-worker-orders-redis
-	$(MAKE) k6-franken-worker-blog
 
 .PHONY: k6-all-franken
 k6-all-franken:
 	@echo "Running all tests against Franken..."
-	$(MAKE) k6-franken-products
 	$(MAKE) k6-franken-products-db
 	$(MAKE) k6-franken-products-redis
-	$(MAKE) k6-franken-customers
 	$(MAKE) k6-franken-customers-db
 	$(MAKE) k6-franken-customers-redis
-	$(MAKE) k6-franken-orders
 	$(MAKE) k6-franken-orders-db
 	$(MAKE) k6-franken-orders-redis
-	$(MAKE) k6-franken-blog
 
 .PHONY: k6-all-fpm
 k6-all-fpm:
 	@echo "Running all tests against FPM..."
-	$(MAKE) k6-fpm-products
 	$(MAKE) k6-fpm-products-db
 	$(MAKE) k6-fpm-products-redis
-	$(MAKE) k6-fpm-customers
 	$(MAKE) k6-fpm-customers-db
 	$(MAKE) k6-fpm-customers-redis
-	$(MAKE) k6-fpm-orders
 	$(MAKE) k6-fpm-orders-db
 	$(MAKE) k6-fpm-orders-redis
-	$(MAKE) k6-fpm-blog
 
 .PHONY: k6-all-environments
 k6-all-environments:
