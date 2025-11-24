@@ -261,8 +261,8 @@ for detailed autoloader optimization guidelines and best practices.
 | Service               | URL                           | Description                           |
 |-----------------------|-------------------------------|---------------------------------------|
 | FPM App               | http://localhost:8088         | Main Symfony app (FPM)                |
-| Franken               | https://localhost:443         | FrankenPHP (HTTPS, alt runtime)       |
-| Franken Worker        | https://localhost:444         | FrankenPHP Worker (HTTPS)             |
+| Franken               | http://localhost:8080         | FrankenPHP (HTTP, regular mode)       |
+| Franken Worker        | http://localhost:8081         | FrankenPHP Worker (HTTP, optimized)   |
 | Grafana               | http://localhost:3000         | Metrics dashboard (admin/admin)       |
 | Prometheus            | http://localhost:9090         | Prometheus metrics                    |
 | Opcache Dashboard     | http://localhost:42042        | PHP Opcache dashboard                 |

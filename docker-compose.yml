@@ -17,16 +17,14 @@ services:
       context: .
       dockerfile: ./docker/Dockerfile.franken
     ports:
-      - "443:443"
-      - "443:443/udp"
+      - "8080:80"
       - "2019:2019"
     volumes:
       - .:/var/www/html
       - ./docker/Caddyfile.regular:/etc/frankenphp/Caddyfile
     tty: true
     environment:
-      SERVER_NAME: ":8080 https://localhost:443"
-      CADDY_GLOBAL_OPTIONS: "admin 0.0.0.0:2019\n"
+      SERVER_NAME: ":80"
     networks:
       - app-net
 
@@ -35,8 +33,7 @@ services:
       context: .
       dockerfile: ./docker/Dockerfile.franken
     ports:
-      - "444:443"
-      - "444:443/udp"
+      - "8081:80"
       - "2020:2019"
     volumes:
       - .:/var/www/html
@@ -46,7 +43,7 @@ services:
     tty: true
     environment:
       APP_RUNTIME: "Runtime\\FrankenPhpSymfony\\Runtime"
-      SERVER_NAME: ":8080 https://localhost:443"
+      SERVER_NAME: ":80"
     networks:
       - app-net
 
