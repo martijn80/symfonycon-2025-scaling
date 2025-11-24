@@ -63,4 +63,4 @@ make
 sudo make install
 ```
 
-![img_8.png](img_8.png)
+![img_8.png](docs/images/img_8.png)

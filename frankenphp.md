@@ -228,16 +228,16 @@ This approach keeps your Caddyfile clean while allowing per-deployment customiza
 
 ### Load Testing FrankenPHP Services
 
-**Test FrankenPHP (Regular Mode):**
+**Test FrankenPHP (Regular Mode - Database):**
 
 ```bash
-make k6-franken-products
+make k6-franken-products-db
 ```
 
-**Test FrankenPHP Worker Mode:**
+**Test FrankenPHP Worker Mode (Database):**
 
 ```bash
-make k6-franken-worker-products
+make k6-franken-worker-products-db
 ```
 
 ### Monitoring FrankenPHP Performance
@@ -285,12 +285,12 @@ curl http://localhost:2020/metrics | grep frankenphp
 **Step 1: Baseline Testing**
 
 ```bash
-# Test regular FrankenPHP
-make k6-franken-products
+# Test regular FrankenPHP (database)
+make k6-franken-products-db
 # Check results in k6/report-franken-*.html
 
-# Test worker mode
-make k6-franken-worker-products  
+# Test worker mode (database)
+make k6-franken-worker-products-db
 # Check results in k6/report-worker-*.html
 ```
 
@@ -420,7 +420,7 @@ OPTIMAL_WORKERS=$(($AVAILABLE_RAM / $PHP_MEMORY_LIMIT))
 # Example: 13984MB / 512MB = ~27 workers
 
 # Test with your existing setup
-make k6-franken-worker-products  # Baseline test
+make k6-franken-worker-products-db  # Baseline test
 # Then adjust num in Caddyfile and retest
 ```
 
@@ -512,7 +512,7 @@ make k6-franken-worker-products-db
 
 Check Grafana
 
-![img_9.png](img_9.png)
+![img_9.png](docs/images/img_9.png)
 
 ### Dynamic Worker Scaling
 
@@ -573,44 +573,32 @@ existing Makefile targets for consistent and reproducible testing.
 
 ```bash
 # Products testing
-make k6-franken-products           # Test products endpoint
-make k6-franken-products-db        # Test products DB endpoint  
+make k6-franken-products-db        # Test products DB endpoint
 make k6-franken-products-redis     # Test products Redis endpoint
 
 # Customers testing
-make k6-franken-customers          # Test customers endpoint
 make k6-franken-customers-db       # Test customers DB endpoint
 make k6-franken-customers-redis    # Test customers Redis endpoint
 
 # Orders testing
-make k6-franken-orders             # Test orders endpoint
 make k6-franken-orders-db          # Test orders DB endpoint
 make k6-franken-orders-redis       # Test orders Redis endpoint
-
-# Blog testing
-make k6-franken-blog               # Test blog endpoint
 ```
 
 #### FrankenPHP Worker Mode (Port 444)
 
 ```bash
 # Products testing
-make k6-franken-worker-products           # Test products endpoint
 make k6-franken-worker-products-db        # Test products DB endpoint
 make k6-franken-worker-products-redis     # Test products Redis endpoint
 
 # Customers testing
-make k6-franken-worker-customers          # Test customers endpoint
 make k6-franken-worker-customers-db       # Test customers DB endpoint
 make k6-franken-worker-customers-redis    # Test customers Redis endpoint
 
 # Orders testing
-make k6-franken-worker-orders             # Test orders endpoint
 make k6-franken-worker-orders-db          # Test orders DB endpoint
 make k6-franken-worker-orders-redis       # Test orders Redis endpoint
-
-# Blog testing
-make k6-franken-worker-blog               # Test blog endpoint
 ```
 
 ### Batch Testing Commands
@@ -638,9 +626,9 @@ make k6-all-environments
 #### Step 1: Individual Endpoint Testing
 
 ```bash
-# Test products endpoint on both FrankenPHP modes
-make k6-franken-products
-make k6-franken-worker-products
+# Test products endpoint on both FrankenPHP modes (database)
+make k6-franken-products-db
+make k6-franken-worker-products-db
 
 # Compare results in generated HTML reports
 # Check: k6/report-*.html files

@@ -6,7 +6,7 @@ Below are two diagrams illustrating the CQRS architecture:
 
 ---
 
-![img_7.png](img_7.png)
+![img_7.png](docs/images/img_7.png)
 
 *In this diagram:*
 - **Command Handlers** process user commands and update the **Command Model**.
@@ -16,7 +16,7 @@ Below are two diagrams illustrating the CQRS architecture:
 
 ---
 
-![img_6.png](img_6.png)
+![img_6.png](docs/images/img_6.png)
 
 *In this diagram:*
 - Commands update the **Write DB**.
@@ -54,7 +54,7 @@ Go to http://localhost:3000/dashboards
 
 Click `PHP-FPM Performance Dashboard`
 
-![img_1.png](img_1.png)
+![img_1.png](docs/images/img_1.png)
 
 1. Select Datasource to Prometheus
 2. Select Pool to www
@@ -70,7 +70,7 @@ Go to http://localhost:3000/dashboards
 
 Click `PHP-FPM Performance Dashboard`
 
-![img_1.png](img_1.png)
+![img_1.png](docs/images/img_1.png)
 
 1. Select Datasource to Prometheus
 2. Select Pool to www
@@ -86,7 +86,7 @@ Go to http://localhost:3000/dashboards
 
 Click `Caddy`
 
-![img.png](img.png)
+![img.png](docs/images/img.png)
 
 1. Select Job to `Caddy`
 2. Select instance to `franken:2019`
@@ -104,7 +104,7 @@ Go to http://localhost:3000/dashboards
 
 Click `Caddy`
 
-![img.png](img.png)
+![img.png](docs/images/img.png)
 
 1. Select Job to `Caddy`
 2. Select instance to `franken-worker:2019`
@@ -122,7 +122,7 @@ Go to http://localhost:3000/dashboards
 
 Click `Caddy`
 
-![img_2.png](img_2.png)
+![img_2.png](docs/images/img_2.png)
 
 1. Select Job to `Caddy`
 2. Select instance to `franken-worker:2019`
@@ -141,7 +141,7 @@ Go to http://localhost:3000/dashboards
 
 Click `Caddy`
 
-![img_3.png](img_3.png)![img.png](img.png)
+![img_3.png](docs/images/img_3.png)![img.png](docs/images/img.png)
 
 1. Select Job to `Caddy`
 2. Select instance to `franken-worker:2019`
@@ -159,7 +159,7 @@ try see again http://localhost:3000/dashboards
 
 it will have slow response time
 
-![img_4.png](img_4.png)
+![img_4.png](docs/images/img_4.png)
 
 let's scale the num of workers in Caddyfile
 
@@ -190,7 +190,7 @@ make down-worker && make up-worker
 
 after changes you will see in the dashboard from FrankenPHP Metrics section
 
-![img_5.png](img_5.png)
+![img_5.png](docs/images/img_5.png)
 
 retry again the k6 to see different in Grafana worker dashboard
 
