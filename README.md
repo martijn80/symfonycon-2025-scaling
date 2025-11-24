@@ -54,7 +54,7 @@ Before starting the application, you need to pull the required Docker images. Yo
 
 **Option 1: Pull all images at once**
 ```bash
-make docker
+make pull-docker
 ```
 
 **Option 2: Pull individual images**

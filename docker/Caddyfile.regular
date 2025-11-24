@@ -9,8 +9,7 @@
 
 {$SERVER_NAME:localhost} {
 	root {$SERVER_ROOT:public/}
-	encode zstd br gzip
-
+	encode zstd br gzip 
 
 	{$CADDY_SERVER_EXTRA_DIRECTIVES}
 
