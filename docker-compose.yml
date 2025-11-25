@@ -99,8 +99,8 @@ services:
     ports:
       - "3000:3000"
     environment:
-      GF_SECURITY_ADMIN_USER: croatia
-      GF_SECURITY_ADMIN_PASSWORD: croatia
+      GF_SECURITY_ADMIN_USER: symfony
+      GF_SECURITY_ADMIN_PASSWORD: symfony
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning:ro
     networks:

@@ -88,7 +88,10 @@ down-worker:
 	docker-compose stop franken-worker
 
 up-prometheus:
-	docker-compose up -d prometheus 
+	docker-compose up -d prometheus
+
+down-prometheus:
+	docker-compose down prometheus
 
 up-grafana:
 	docker-compose up prometheus grafana -d

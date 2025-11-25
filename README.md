@@ -86,18 +86,21 @@ make up-opcache-dashboard
 
 open - http://localhost:42042/opcache/status
 
+![img.png](docs/images/opcache-dashboard.png)
+
 https://www.php.net/manual/en/opcache.configuration.php#:~:text=on%20all%20architectures.-,opcache.max_accelerated_files,-int
 
 ```
 find . -type f -name "*.php" | wc -l
 
 opcache.max_accelerated_files=16087
-
 ```
 
 ### show fpm and opcache dashboard GUI
 
 show fpm status page - http://localhost:8088/fpm-status
+
+![img.png](docs/images/fpm-status.png)
 
 ```
 fpm.conf - pm.status_path = /fpm-status
@@ -114,6 +117,8 @@ make ps | grep exporter
 
 Go to http://localhost:9253/metrics
 
+![img.png](docs/images/fpm-exporter.png)
+
 ```
 make up-prometheus
 make ps | grep prom
@@ -121,10 +126,16 @@ make ps | grep prom
 
 Go to http://localhost:9090/targets?search=
 
+![img.png](docs/images/fpm-exporter.png)
+
 ```
 make up-grafana
 make ps | grep grafana
 ```
+
+Go to http://localhost:3000/, choose Dashboard in the sidebar and click `PHP-FPM Performance Dashboard`
+
+![img.png](docs/images/fpm-grafana.png)
 
 ### Show target prom sources
 
@@ -133,8 +144,8 @@ http://localhost:9090/targets?search=
 ### view grafana dashboard
 
 open http://localhost:3000
-username: croatia
-password: croatia
+username: symfony
+password: symfony
 
 ### show grafana fpm/opcache dashboard
 
