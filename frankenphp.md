@@ -18,13 +18,25 @@ Go to - http://localhost:8080/
 
 ### Show target prom sources
 
-Check franken is up
+Check franken metric is up
 
-http://localhost:9090/targets?search=
+go to http://localhost:2020/metrics
+
+Find CTRL / CMD + F `frankenphp_total_threads`
+
+![img_1.png](docs/images/franken-metric-classic.png)
+
+we notice that we have total threads 16 by default, this is means Franken doing monitoring for us
+
+now check Prometheus go to http://localhost:9090/targets?search=
 
 ![img.png](docs/images/prometheus-franken.png)
 
+we notice that franken:2019 is up
+
 ### show grafana franken/opcache dashboard
+
+let's make performance testing on it
 
 ```bash
 make benchmark-product-random-franken
@@ -56,9 +68,19 @@ Go to - http://localhost:8081/
 
 ### Show target prom sources
 
-Check franken is up
+Check franken metrics is up
 
-http://localhost:9090/targets?search=
+Go to http://localhost:2020/metrics
+
+Find CTRL / CMD + F `frankenphp_total_threads`
+
+![img.png](docs/images/franken-metrics.png)
+
+we notice that our `frankenphp_total_threads` is 20
+
+now let's check Prometheus go to http://localhost:9090/targets?search=
+
+we notice that our http://franken-worker:2019 is Up
 
 ![img.png](docs/images/prometheus-franken.png)
 
@@ -80,9 +102,13 @@ Check grafana output go to http://localhost:3000 or http://localhost:3000/d/9cf6
 
 ![img_6.png](docs/images/grafana-franken-worker-dashboard.png)
 
+you can scroll down to see more graph
+
 ---
 
 ## Performance Comparison: PHP-FPM vs FrankenPHP Classic vs FrankenPHP Worker
+
+So far we are testing FPM, Franken Classic and Franken worker mode and we know where Franken worker shine
 
 ### Performance Summary Table
 
@@ -93,8 +119,6 @@ Check grafana output go to http://localhost:3000 or http://localhost:3000/d/9cf6
 | **P95 Latency**       | ~145ms  | ~155ms             | ~22ms             | 🏆 Worker (7x)  |
 | **Memory Efficiency** | Medium  | Good               | Excellent         | 🏆 Worker       |
 | **CPU Efficiency**    | Medium  | Good               | Excellent         | 🏆 Worker       |
-
-\* Worker mode stability depends on application code being stateless and handling errors properly.
 
 ---
 
@@ -122,7 +146,7 @@ Check grafana output go to http://localhost:3000 or http://localhost:3000/d/9cf6
 - Auto-reloads on file changes if needed
 - Better suited for production workloads
 
-## Auto-Reload (File Watching)
+### Auto-Reload (File Watching) When you are in Development Mode
 
 Both FrankenPHP services can automatically reload PHP workers when your code changes, thanks to the `watch` directive in
 the Caddyfile:
@@ -164,10 +188,12 @@ frankenphp {
 
 why ?
 
+```
 watch → FrankenPHP auto-reloads when files change
 preload → Load files once; changes NOT detected
 revalidate_freq → How often to check files for changes
 validate_timestamps → Whether to check changes at all
+```
 
 go to terminal
 
@@ -175,7 +201,7 @@ go to terminal
 make worker-shell
 ```
 
-enter
+run this command
 
 ```bash
 frankenphp reload --config=/etc/frankenphp/Caddyfile
@@ -203,7 +229,7 @@ frankenphp reload --config=/etc/frankenphp/Caddyfile
 
 Go to http://localhost:8081/en/blog/, if you reload it will hard reload the browser
 
-if you found it stuck at loading run command below in terminal
+if you found it stuck at loading run command below in terminal to restart container in docker
 
 ```bash
 make down-worker && make up-worker
@@ -211,7 +237,7 @@ make down-worker && make up-worker
 
 now let's open file ./src/Controller/BlogController.php
 
-and uncommented 
+and uncomment `// phpinfo();`
 
 ```php
 public function index(Request $request, int $page, string $_format, PostRepository $posts, TagRepository $tags): Response
@@ -228,28 +254,3 @@ then Go to http://localhost:8081/en/blog/ again, we notice that phpinfo page is 
 
 so now everytime you make changes on the php, twig files it will reflect on the browser
 
-### Important Considerations
-
-- **Performance Impact**: File watching uses system resources
-- **Production Warning**: Always disable `watch` in production for stability
-- **Large Projects**: Watching many files can impact performance
-
-### Worker Metrics
-
-When `metrics` is enabled, worker information is exposed at the metrics endpoint:
-
-## View franken metrics for grafana
-
-Go to - http://localhost:2020/metrics
-
-```
-# With num 1
-frankenphp_total_workers{worker="/var/www/html/public/index.php"} 1
-
-# With num 8
-frankenphp_total_workers{worker="/var/www/html/public/index.php"} 8
-```
-- Access metrics at `http://localhost:2020/metrics` (or your configured admin port)
-- The `frankenphp_total_workers` metric shows active workers per script
-- Worker path reflects the `file` directive in your configuration
-- Updates in real-time when workers are added/removed
