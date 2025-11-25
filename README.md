@@ -358,17 +358,6 @@ for detailed autoloader optimization guidelines and best practices.
 | Franken Metrics       | http://localhost:2019/metrics | Caddy/FrankenPHP metrics (non-worker) |
 | Worker Metrics        | http://localhost:2020/metrics | Caddy/FrankenPHP metrics (worker)     |
 
-## Grafana Dashboard
-
-A detailed PHP-FPM and OPcache monitoring dashboard is available in Grafana. It includes:
-
-- PHP-FPM health, queue, and process metrics
-- Request rate, duration, and memory usage
-- OPcache hit ratio, memory, and script cache stats
-- JIT and interned strings monitoring
-- Alerts and color-coded panels for quick health checks
-
-**See [`grafana-dashboard.md`](grafana-dashboard.md) for a full description of all panels and dashboard features.**
 
 ## FrankenPHP Configuration
 
@@ -383,3 +372,15 @@ comparison and monitoring.
 - Performance testing and monitoring
 - Troubleshooting guide
 - Resource optimization guidelines
+
+## Grafana Dashboard
+
+A detailed PHP-FPM and OPcache monitoring dashboard is available in Grafana. It includes:
+
+- PHP-FPM health, queue, and process metrics
+- Request rate, duration, and memory usage
+- OPcache hit ratio, memory, and script cache stats
+- JIT and interned strings monitoring
+- Alerts and color-coded panels for quick health checks
+
+**See [`grafana-dashboard.md`](grafana-dashboard.md) for a full description of all panels and dashboard features.**

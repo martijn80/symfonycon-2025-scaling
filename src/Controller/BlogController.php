@@ -51,7 +51,8 @@ final class BlogController extends AbstractController
     #[Cache(smaxage: 10)]
     public function index(Request $request, int $page, string $_format, PostRepository $posts, TagRepository $tags): Response
     {
-        dump('FF');
+        // phpinfo();
+
         $tag = null;
 
         if ($request->query->has('tag')) {

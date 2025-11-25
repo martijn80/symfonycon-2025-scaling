@@ -129,6 +129,21 @@ the Caddyfile:
 
 open ./docker/Caddyfile file
 
+
+uncomment
+
+```bash
+# watch
+
+# php_ini {
+#     opcache.preload ""
+#     opcache.revalidate_freq 0
+#     opcache.validate_timestamps 1
+# }
+```
+
+so it will looks like this
+
 ```caddyfile
 	frankenphp {
 		num_threads 20 # Optimal: 16 workers + 4 handling threads
@@ -140,10 +155,19 @@ open ./docker/Caddyfile file
 			file ./public/index.php
 			num 16 # 2 workers per CPU core (8 cores * 2) - optimal balance
 		}
+		
+		php_ini opcache.preload ""
+        php_ini opcache.revalidate_freq 0
+        php_ini opcache.validate_timestamps 1
 	}
 ```
 
-uncomment `# watch`
+why ?
+
+watch → FrankenPHP auto-reloads when files change
+preload → Load files once; changes NOT detected
+revalidate_freq → How often to check files for changes
+validate_timestamps → Whether to check changes at all
 
 go to terminal
 
@@ -171,31 +195,38 @@ if you notice that we have format issue at the file we can run
 frankenphp fmt --overwrite --config=/etc/frankenphp/Caddyfile
 ```
 
-and reload the config 
+if you don't faced that issue then just continue command below
 
 ```bash
 frankenphp reload --config=/etc/frankenphp/Caddyfile
 ```
 
-Go to http://localhost:8081/, if you reload it will hard reload the browser
+Go to http://localhost:8081/en/blog/, if you reload it will hard reload the browser
+
+now let's open file ./src/Controller/BlogController.php
+
+and uncommented 
+
+```php
+public function index(Request $request, int $page, string $_format, PostRepository $posts, TagRepository $tags): Response
+{
+    phpinfo();
+    
+    ... another code
+}
+```
+
+then Go to http://localhost:8081/en/blog/ again, we notice that phpinfo page is render
+
+![img.png](docs/images/franken-worker-controller-watch.png)
+
+so now everytime you make changes on the php, twig files it will reflect on the browser
 
 ### Important Considerations
 
-- **Performance Impact**: File watching uses system resources (inotify on Linux)
+- **Performance Impact**: File watching uses system resources
 - **Production Warning**: Always disable `watch` in production for stability
 - **Large Projects**: Watching many files can impact performance
-
-**Production Best Practice:**
-
-```caddyfile
-frankenphp {
-    worker {
-        file ./public/index.php
-        # watch  # Commented out for production
-        num 8   # Increase workers instead
-    }
-}
-```
 
 ### Worker Metrics
 
