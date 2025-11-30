@@ -405,6 +405,8 @@ session.gc_maxlifetime=7200
 4. Next request → Session not found, user must re-authenticate
 
 #### Session Startup
+
+This has been default Off since for ever and . 
 ```ini
 session.auto_start=Off
 ```
